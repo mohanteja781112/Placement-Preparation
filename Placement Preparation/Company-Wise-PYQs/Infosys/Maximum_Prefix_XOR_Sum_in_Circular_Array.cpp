@@ -27,5 +27,5 @@ int main(){
         }
         ans=max(ans,sum);
     }
-    cout<<ans; 
+    cout<<ans;  
 }
