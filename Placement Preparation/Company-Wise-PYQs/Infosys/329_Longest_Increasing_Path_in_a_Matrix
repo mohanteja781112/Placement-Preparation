@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int n,m;
+    vector<vector<int>>dp;
+    vector<pair<int,int>>directions={
+        {-1,0},{1,0},{0,-1},{0,1}
+    };
+    int dfs(int i, int j, vector<vector<int>>& matrix){
+        // Already Computed
+        if(dp[i][j]!=0) return dp[i][j];
+        // Minimum path length is 1, curr val
+        dp[i][j]=1;
+        for(auto [dx,dy]:directions){
+            int ni=i+dx;
+            int nj=j+dy;
+            if((ni>=0 && ni<n) && (nj>=0 && nj<m) && matrix[ni][nj]>matrix[i][j]){ // should be in matrix and new val>curr
+                dp[i][j]=max(dp[i][j],1+dfs(ni,nj,matrix));
+            }
+        }
+        return dp[i][j];
+    }
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        // this->matrix=matrix; // matrix1=matrix and use matrix1 as main one (if used class member instead of parameter)
+        n=matrix.size();
+        m=matrix[0].size();
+        dp.assign(n,vector<int>(m,0)); // dp(n,vector<int>(m,0))
+        int ans=0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                ans=max(ans,dfs(i,j,matrix));
+            }
+        }
+        return ans;
+    }
+};
